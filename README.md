@@ -152,6 +152,51 @@ defmodule Geometry do
 end
 ```
 
+Dê a você uma variável/valor, você pode querer
+
+1. Verifique se o tipo de dados corresponde ao tipo de dados esperado
+2. Verifique se a estrutura dos dados corresponde à estrutura de dados esperada
+3. Atribuir parte correspondente dos dados a uma variável
+
+exemplos
+
+verificar se os dados são mapas
+
+```elixir
+%{} = params
+```
+
+podemos, por exemplo, fazer três verificações: verificar se os dados são um mapa, tem a chave email e o valor email é corresponde a um determinado input
+
+```elixir
+%{"email" => "zoo@example.com"} = params
+```
+
+Atribuição de variáveis. Nesse caso, ele ira fazer a verificação se existe a chave email na tupla, se possuir, o valor da chave email irá ser atríbuida a variável my_email
+
+%{"email" => my_email} = params
+
+Podemos fazer o mesmo caso com variáveis anonimas.
+
+```elixir
+%{"email" => _} = params
+```
+
+verificação do tipo struct
+```elixir
+%User{} = params
+```
+Verifique se os dados são tuplas e têm valor específico
+
+```elixir
+{:ok, data} = result
+# you use this most of time
+```
+
+
+
+
+
 ### Funções nomeada
 Nós podemos definir funções com nomes para referir a elas no futuro, estas funções nomeadas são definidas com a palavra-chave def dentro de um módulo. Nós iremos aprender mais sobre Módulos nas próximas lições, por agora nós iremos focar apenas nas funções nomeadas. Abaixo vemos um exemplo de função nomeada que retorna o tamanho de uma lista
 
@@ -161,6 +206,39 @@ defmodule Length do
   def of([_ | tail]), do: 1 + of(tail)
 end
 ```
+### Guards
+Guards podem ser vistos com um complemento a pattern Matching podendo realizar atividades mais complicadas quando combinado. Normalmente, por convenção, são usados após pattern matching e podem produzir as mesmas saídas. 
+
+```elixir
+# sum on empty list
+# pattern matching
+def sum_list([] = _input), do: 0
+
+# guard
+def sum_list(input) when input == [], do: 0
+```
+Abaixo alguns exemplos de funções que utilizam guards
+
+```elixir
+# Check Primitive type
+def sum(a,b) when is_integer (a) and is_integer(b) do
+  a + b
+end
+
+
+#Check if value is nil/not nil
+def string_lenght(string) when not is_nill(string) do
+  #Your code
+end
+
+#Check if input in a lista of allowed values
+
+def can_edit(%User{role: role}) when role in ["Admin", "Moderator"] do
+  true
+end
+
+```
+
 
 
 
