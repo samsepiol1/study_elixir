@@ -15,7 +15,7 @@ Phoenix: Phoenix é conhecido por ser um dos melhores frameworks web. É baseado
 
 ### Strings
 
-Elixir usa o padrão UTF-8 para codificação de Strings. As Strings são iguais em qualquer outra linguagem
+Elixir usa o padrão UTF-8 para codificação de Strings. As Strings são iguais em qualquer outra linguagem. No exemplo abaixo temos uma saída de uma string no terminal
 
 
 
