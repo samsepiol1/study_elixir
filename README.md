@@ -105,6 +105,63 @@ sum.(2, 3)
 
 ```
 
+### Pattern Matching
+Pattern Matching é uma forma de associar uma expressão em elixir. Pattern Matching não pode ser limitado apenas a associação com variáveis, podemos executar isso com funções. 
+
+```elixir
+{name,age} = {"John", 25}
+name #Output: "John"
+age #Output: 25
+```
+
+Operador _ permite que você não faça associação diretas aos valores sendo bem útil quando você quer utilizar constantes. O operador _ também chamada de variável anonima
+
+```elixir
+{_, x} = {11, "Hello"}
+```
+
+A utilidade de pattern matching com funções no permite criar múltiplas clausulas para a função. Elixir utiliza pattern matching para verificar todas as possíveis opções de match e identificar o primeiro conjunto de parâmetros associados para executar seu respectivo corpo.
+
+```elixir
+handle_result = fn
+  {:ok, result} -> IO.puts "Handling result..."
+  {:ok, _} -> IO.puts "This would be never run as previous will be matched beforehand."
+  {:error} -> IO.puts "An error has occurred!"
+end
+```
+Nesse código, associamos uma função anonima a uma variável que pode retornar três tipos de resultados diferentes conforme a entrada da tupla. Abaixo vemos um outro exemplo de pattern matching aplicado em um função nomeada
+
+```elixir
+defmodule Geometry do
+  def area({:rectangle, a, b}) do
+    a * b
+  end
+
+  def area({:square, a}) do
+    a * a
+  end
+
+  def area(:circle, r) do
+    r * r * 3.14159
+  end
+
+  def area(unknown) do
+    {:error},{:unknow_shape, unknown}
+  end
+
+end
+```
+
+### Funções nomeada
+Nós podemos definir funções com nomes para referir a elas no futuro, estas funções nomeadas são definidas com a palavra-chave def dentro de um módulo. Nós iremos aprender mais sobre Módulos nas próximas lições, por agora nós iremos focar apenas nas funções nomeadas. Abaixo vemos um exemplo de função nomeada que retorna o tamanho de uma lista
+
+```elixir
+defmodule Length do
+  def of([]), do: 0
+  def of([_ | tail]), do: 1 + of(tail)
+end
+```
+
 
 
 
