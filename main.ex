@@ -11,6 +11,9 @@ defmodule Playground do
     area(10,20)
   end
 
+# Add Comment for test
+
+
   # Clean Way to do one line function
     def area_of_circle(x, y) do: x * y
   end
