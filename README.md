@@ -1,5 +1,5 @@
 # Elixir
-[logo do elixir](https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/320px-Official_Elixir_logo.png)
+[Logo do Elixir](https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/320px-Official_Elixir_logo.png)
 Elixir é uma linguagem de programação funcional. Com linguagens funcionais como Elixir, podemos fazer melhor uso de nossos multinúcleos de CPU e escrever códigos mais curtos e explícitos. Para entender melhor a programação funcional, devo primeiro apresentar os seguintes princípios fundamentais: imutabilidade, funções e código declarativo.
 
 Na programação funcional, todos os valores criados no programa são imutáveis. Por padrão, cada função possui um valor estável, o que significa que mecanismos de bloqueio não são necessários. Isso simplifica o trabalho paralelo. A imutabilidade está aparecendo mais nas linguagens de programação convencionais. Essas linguagens normalmente fornecem o mecanismo imutável, fornecendo uma alternativa de tipo de dados imutável ou um método para tornar um valor imutável.
