@@ -239,6 +239,36 @@ end
 
 ```
 
+### Macros
+Embora o Elixir faça o possível para fornecer um ambiente seguro para macros, a principal responsabilidade de escrever código limpo com macros recai sobre os desenvolvedores. Macros são mais difíceis de escrever do que funções comuns do Elixir e é considerado um estilo ruim usá-las quando não são necessárias. Portanto, escreva macros com responsabilidade.
+
+Elixir já fornece mecanismos para escrever seu código diário de forma simples e legível, usando suas estruturas de dados e funções. Macros só devem ser usadas como último recurso. Lembre-se de que explícito é melhor que implícito . Código claro é melhor do que código conciso.
+
+Abaixo podemos ver um exemplo prático de Macros onde temos funções privadas(defp) que não podem ser usadas fora do escopo do módulo. A função principal invocar as outras funções com intuito de extrair o resultado a qual foi verificado previamente nas outras funções e no final irá exibir o resultado capturado das outras funções
+
+```elixir
+defmodule Playground do
+  def extract_user(user) do
+    with{:ok, login} <- extract_login(user),
+        {:ok, email} <- extract_email(user),
+        {:ok, password} <- extract_password(user) do
+          {:ok, %{login: login, email: email, passoword: password}}
+        end
+  end
+
+  # Private functions cannot be used outside the module playground
+
+  defp extract_login %({"login" -> login}), do: {:ok, login}
+  defp extract_login(_), do: {:error, "login missing"}
+  defp extract_email(%{"email"} -> email), do:{:ok, email}
+  defp extract_email(_), do: {:error, "email missing"}
+  defp extract_password(%{"password"} -> password), do: {:ok, password}
+  defp extract_password(_), do:{:error, "password missing"}
+
+end
+```
+
+
 
 
 
