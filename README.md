@@ -11,3 +11,17 @@ Mix: Mix é uma ferramenta de construção que permite criar projetos, executar 
 IEx: IEx, o shell interativo do Elixir, oferece muitos recursos como preenchimento automático, depuração, recarregamento de código e muito mais.
 Phoenix: Phoenix é conhecido por ser um dos melhores frameworks web. É baseado na arquitetura MVC, assim como Ruby on Rails.
 
+## Tipos Primitivos
+
+### Strings
+
+Elixir usa o padrão UTF-8 para codificação de Strings. As Strings são iguais em qualquer outra linguagem
+
+
+
+```elixir
+  IO.puts("Hello, World!")
+```
+
+
+
