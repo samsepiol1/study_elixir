@@ -47,5 +47,73 @@ true==false
 
 ```
 
+### KeyWord List
+Quando temos uma lista de tuplas e o primeiro item da tupla possui um átomo chamamos essa estrutura de Keyword List. Abaixo vemos um exemplo de KeyWord List
+
+```elixir
+list = [{:c, 1}, {:d, 2}]
+[c: 1, d: 2]
+iex> list == [c: 1, d: 2]
+true
+```
+
+### Módulos e funções 
+
+No elixir as funções são agrupadas em módulos, no exemplo abaixo vemos chamadas de funções e uma função simples:
+
+```elixir
+String.length("elixir")
+```
+
+```elixir
+defmodule Playground do
+  #Normal Function
+  def area(a, b) do
+    a * b
+  end
+end
+```
+
+Importante ressaltar que no elixir não existe a palavra chave return, portanto, o retorno é baseado na saída da última linha. Embaixo tem um exemplo de função sem argumentos
+
+```elixir
+  # Function with no arguments
+
+  def run do
+    area(10,20)
+  end
+```
+
+Quando se tem um retorno de uma linha é possível fazer isso da seguinte maneira: 
+
+```elixir
+ # Clean Way to do one line function
+    def area_of_circle(x, y) do: x * y
+  end
+```
+#### Funções Anonimas
+Tal como o nome indica, uma função anônima não tem nome. Como vimos na lição Enum, elas são frequentemente passadas para outras funções. Para definir uma função anônima em Elixir nós precisamos das palavras-chave fn e end. Dentro destes, podemos definir qualquer número de parâmetros e corpos separados por ->.
+
+```elixir
+# Anon Function
+    s = fn x -> x * x end
+    s.(2)
+    # Output: 4
+
+sum = fn (a, b) -> a + b end
+sum.(2, 3)
+
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
