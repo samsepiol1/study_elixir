@@ -15,12 +15,36 @@ Phoenix: Phoenix é conhecido por ser um dos melhores frameworks web. É baseado
 
 ### Strings
 
-Elixir usa o padrão UTF-8 para codificação de Strings. As Strings são iguais em qualquer outra linguagem. No exemplo abaixo temos uma saída de uma string no terminal
+Elixir usa o padrão UTF-8 para codificação de Strings. As Strings são iguais em qualquer outra linguagem. No exemplo abaixo temos uma saída de uma string no terminal.
 
 
 
 ```elixir
   IO.puts("Hello, World!")
+```
+
+### Átomos
+
+Átomos são constantes cujo o valor é são seus propios nomes. Em outras linguagens, como ruby por exemplo, Átomos são chamados de símbolos. 
+
+```elixir
+
+iex> :cat
+:cat
+iex> :dog
+:dog
+iex> :fish
+:fish
+
+```
+
+### Booleanos
+Booleanos são valores que podem assumir verdadeiro ou falso
+```elixir
+true
+
+true==false
+
 ```
 
 
