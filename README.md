@@ -273,7 +273,25 @@ end
 
 Esta abordagem geralmente não é usada no Elixir. Por ser uma linguagem funcional, o Elixir promove a dissociação dos dados do código. Em vez de classes, você usa módulos, que são coleções de funções. Em vez de chamar métodos em objetos, você chama explicitamente funções de módulo e fornece dados de entrada por meio de argumentos.
 
+```elixir
+defmodule TaskList do
+  def new() do: %{}
 
+  def add_task(task_list, data, body) do
+    Map.update(
+      task_list,
+      date
+      [body],
+      fn tasks -> [body|tasks] end
+    )
+
+    #Query Function
+    def get_tasks(task_list, date) do
+      Map.get(task_list, date, [])
+    end
+  end
+end
+```
 
 
 
