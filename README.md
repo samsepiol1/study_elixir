@@ -297,8 +297,17 @@ end
 
 A simultaneidade é uma ótima técnica para aplicar na criação de uma aplicação, ela traz capacidade de resposta, ajuda a melhorar a escalabilidade e distribuição e ainda por cima traz muitas preocupações extras também. Por causa disso, a tecnologia usada no desenvolvimento de tal aplicação deve ser madura o suficiente para esse cenário, caso contrário, você terá que tomar cuidado com as clássicas armadilhas de simultaneidade e os problemas específicos da sua aplicação.
 
-A simultaneidade é uma ótima técnica para aplicar na criação de uma aplicação, ela traz capacidade de resposta, ajuda a melhorar a escalabilidade e distribuição e ainda por cima traz muitas preocupações extras também. Por causa disso, a tecnologia usada no desenvolvimento de tal aplicação deve ser madura o suficiente para esse cenário, caso contrário, você terá que tomar cuidado com as clássicas armadilhas de simultaneidade e os problemas específicos da sua aplicação.
+A ferramenta básica e mais poderosa do modelo de simultaneidade BEAM são seus processos, não os processos criados pelo sistema operacional, o BEAM é um deles, mas os processos criados e gerenciados por ele são uma versão mais leve. Uma aplicação rodando na máquina virtual Erlang pode fazer uso de vários processos para executar funções em paralelo, tanto quanto possível, em um fluxo mais escalável do que lidar com um processo comum.
 
+<p align="center"><a href="www.elixir.com" target="_blank"><img src="https://www.poeticoding.com/wp-content/uploads/2019/03/featured_concurrent_requests.png" alt="Elixir Logo"></a></p>
+
+Criamos um spawn para que cada requisição seja feita e executada ao mesmo(de forma concorrente). A spawn(func) função cria um processo Erlang, retorna um PID (um ID de processo exclusivo) e executa a função passada dentro deste novo processo. Dessa forma, as requisição se tornam simultaneas executando cada um em um processo. 
+
+```elixir
+pid_btc = spawn fn -> 
+  Coinbase.print_price("BTC-USD")
+end
+```
 
 
 
