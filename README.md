@@ -309,6 +309,72 @@ pid_btc = spawn fn ->
 end
 ```
 
+Com um exemplo mais simples: temos a soma de dois números que só vai ser possível após uma função anterior a ele ser executada. Ou seja, se tivermos mais de uma soma para realizar esse será um longo processo e o tempo de execução pode não ser tão rápido assim quando lidamos com operações de somas consecutivas. A função Spawn o recebe como parâmetro outra função que será executada em um novo processo, o chamador da função spawn pode continuar seu trabalho enquanto outro processo é emitido para a chamada.
+
+```elixir
+# Without spawn function
+sum_maker = fn num, num2 ->
+  Process.sleep(5000)
+  IO.puts("#{num1} + #{num2} = #{num1 + num2}")
+
+
+# With Spawn Function
+async_sum = fn num1, num2 ->
+  spawn(fn -> sum_maker(num1, num2) end)
+```
+
+#### Pequeno processo de servidor
+
+No contexto do código abaixo usamos a comunicação entre atores do elixir onde por meio do PID podemos enviar uma mensagem para o processo. Para que possamos recuperar a mensagem que foi enviada usamos a função recive. Um exemplo do nosso código inical pode ser visto abaixo: 
+
+```elixir
+sum_maker = fn num1, num2 ->
+  Process.sleep(5000)
+  num1 + num2
+end
+
+async_sum = fn num1, num2 ->
+  caller = self()
+  spawn(fn -> send(caller, {:result, sum_maker.(num1, num2)}) end)
+end
+```
+
+
+O codigo abaixo é um exemplo simplificado de servidor onde criamos um loop para poder segurar as mensagens. Quando a mensagem é recebida e o processo executado o ciclo continua. Podemos gerenciar o status dos recebimentos da mensagens por meio da função get_last. 
+
+```elixir
+defmodule Calculator do
+  def start, do: spawn(&register/0)
+  def register do
+    Process.register(self(), :calculator)
+    loop(0)
+  end
+  def loop(state) do
+    next_state =
+      receive do
+        {:sum, caller, num1, num2} ->
+          sum = sum_maker(num1, num2)
+          send(caller, {:result, sum})
+          sum
+        {:last, caller} ->
+          send(caller, {:last, state})
+          state
+      end
+    loop(next_state)
+  end
+def get_last do
+    send(:calculator, {:last, self()})
+    receive do
+      {:last, value} ->
+        IO.puts("Your last call was #{value}")
+      after
+        2000 -> IO.puts("Can't fetch your lastest call.")
+    end
+  end
+```
+
+
+
 
 
 
