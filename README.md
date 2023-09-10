@@ -293,6 +293,11 @@ defmodule TaskList do
 end
 ```
 
+### Concorrência
+
+A simultaneidade é uma ótima técnica para aplicar na criação de uma aplicação, ela traz capacidade de resposta, ajuda a melhorar a escalabilidade e distribuição e ainda por cima traz muitas preocupações extras também. Por causa disso, a tecnologia usada no desenvolvimento de tal aplicação deve ser madura o suficiente para esse cenário, caso contrário, você terá que tomar cuidado com as clássicas armadilhas de simultaneidade e os problemas específicos da sua aplicação.
+
+A simultaneidade é uma ótima técnica para aplicar na criação de uma aplicação, ela traz capacidade de resposta, ajuda a melhorar a escalabilidade e distribuição e ainda por cima traz muitas preocupações extras também. Por causa disso, a tecnologia usada no desenvolvimento de tal aplicação deve ser madura o suficiente para esse cenário, caso contrário, você terá que tomar cuidado com as clássicas armadilhas de simultaneidade e os problemas específicos da sua aplicação.
 
 
 
