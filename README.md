@@ -1,5 +1,5 @@
 # Elixir
-![Logo do Elixir](https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/320px-Official_Elixir_logo.png)
+<center>![Logo do Elixir](https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/320px-Official_Elixir_logo.png)</center>
 
 Elixir é uma linguagem de programação funcional. Com linguagens funcionais como Elixir, podemos fazer melhor uso de nossos multinúcleos de CPU e escrever códigos mais curtos e explícitos. Para entender melhor a programação funcional, devo primeiro apresentar os seguintes princípios fundamentais: imutabilidade, funções e código declarativo.
 
