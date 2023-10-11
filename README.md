@@ -373,6 +373,46 @@ def get_last do
   end
 ```
 
+### Sigils
+É um atalho para criar algum tipo de dado. De acordo com a documentação: Elixir fornece uma sintaxe alternativa para representar e trabalhar com literais. Um sigil (símbolo especial) vai começar com um til ~ seguido por um caractere. O núcleo do Elixir fornece-nos alguns sigils, no entanto, é possível criar o nosso próprio quando precisamos estender a linguagem.
+
+```elixir
+
+defmodule Elixir13 do
+  def main do
+    ["casa", "prédio", "barraco"]
+
+    # Ambos são a mesma coisa, porém representadas de formas diferentes
+
+    ~w(casa predio barraco)
+
+
+    # Exemplo de aplicação com expressão regular
+    "elixir1" =~ ~r/elixir/
+
+  end
+
+```
+
+~C Gera uma lista de caracteres sem escape ou interpolação
+~c Gera uma lista de caracteres com escape e interpolação
+~R Gera uma expressão regular sem escape ou interpolação
+~r Gera uma expressão regular com escape e interpolação
+~S Gera strings sem escape ou interpolação
+~s Gera string com escape e interpolação
+~W Gera uma lista sem escape ou interpolação
+~w Gera uma lista com escape e interpolação
+~N Gera uma NaiveDateTime struct
+
+Com a linguagem é possível criar seu próprio sigils personalizado como segue o exemplo abaixo
+
+```elixir
+defmodule sigil_u(string, []) do
+  def sigil_u(string[], do: String.upcase(string)) # Transforma em letra minuscula
+end
+```
+
+
 ### Servidores Genericos
 
 
