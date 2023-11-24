@@ -415,6 +415,29 @@ end
 
 ### Servidores Genericos
 
+É um dos módulos que compõem o pacote OTP. É possível acessar ele a partir do elixir graças a interoperabilidade da linguagem. O Gen Server é um tipo de processo como os demais processos que podem ser gerados na linguagem. A principal diferença de um GenServer para os demais é que você pode criar um processo do tipo GenServer como se fosse um servidor que acaba não interferindo na sua aplicação principal. 
+
+O ciclo de vida do seu GenServer tende a funcionar da seguinte maneira: inicia -> loop(chama uma função -> gera um novo estado).
+
+Ex:
+Suponhamos que você tenha utilizado o GenServer para implementar uma pilha, seria mais ou menos assim:
+```elixir
+defmodule Stack do
+  use GenServer
+
+  # {...} Outras implementações como init, start_link, etc...
+
+  def handle_call(:pop, _from, [value | state]), do: {:reply, value, state}
+  def handle_call(:pop, _from, []), do: {:reply, nil []}
+
+  def handle_cast({:push, value}, state), do: {:no_reply, [value | state]}
+
+  def push(value), do: GenServer.cast(__MODULE__, {:push, value})
+  def pop(), do: GenServer.call(__MODULE__, :pop)
+end
+
+```
+
 
 
 
