@@ -1,5 +1,5 @@
 <center><h2>Meus Estudos em Elixir</h2></center>
-<p align="center"><a href="https://nintendo.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/320px-Official_Elixir_logo.png" width="400" alt="Elixir Logo"></a></p>
+<p align="center"><a href="https://elixir.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/320px-Official_Elixir_logo.png" width="400" alt="Elixir Logo"></a></p>
 
 Elixir é uma linguagem de programação funcional. Com linguagens funcionais como Elixir, podemos fazer melhor uso de nossos multinúcleos de CPU e escrever códigos mais curtos e explícitos. Para entender melhor a programação funcional, devo primeiro apresentar os seguintes princípios fundamentais: imutabilidade, funções e código declarativo.
 
@@ -437,6 +437,165 @@ defmodule Stack do
 end
 
 ```
+
+### Como criar Processos
+Um processo é algo que pode fazer coisas de forma isolada e concorrente. Vamos tentar um exemplo mais concreto. Digamos que você seja um rato. Você pode fazer várias coisas que os ratos fazem, como se esconder ou comer queijo por exemplo. Você é independente, não precisa de outras pessoas para fazer o que quer e eles não interferem nas suas atividades. Ou seja, você faz isso de forma isolada. Em um concurso de ratos para ver qual come mais queijo, todos poderiam fazer isso de forma concorrente e paralela. Todos comem ao mesmo tempo e não um de cada vez.
+
+Agora que temos uma noção do que é um processo, vamos imaginar que você quer fazer um novo amigo, ou seja, outro processo. Então vamos criar o processo gato. É possível fazer isso com a função spawn.
+
+```elixir
+defmodule Gato do
+  def criar do
+    IO.puts("Você criou um gato")
+end
+end
+
+#Cria um gato
+spawn(Gato, :criar. [])
+
+# Resultado: Você criou um gato
+```
+
+### Comunicação entre processos
+Depois de criar um processo Gato, lembre-se, você quer que ele comunique com o seu amigo gato. No entanto, os processos são isolados, como podemos fazer isso?
+
+#### Envio e recebimento de mensagem
+Enviamos uma mensagem com a função send/2. Passamos para essa função duas coisas: o destinatário da mensagem e qual é a mensagem. Mas como nosso código vai saber enviar a mensagem para o processo gato? Ainda bem que a função spawn retorna pra gente um identificador do processo criado, como se fosse seu endereço. Então vamos salvar o retorno de spawn na variável gato. Agora é só enviar a mensagem.
+
+```elixir
+defmodule Gato do:
+  def criar do 
+    recive do
+    :eai_beleza -> IO.Puts("De Boas")
+    end
+  end
+end
+
+# Cria um gato
+gato = spawn(Gato, :criar, [])
+
+# Manda mensagem
+send(gato, :eai_beleza)
+
+# Resultado
+"De Boas"
+```
+
+### Responda um outro processo
+Nosso código tem um problema. Imagine o IO.puts("De boas") como se o gato tivesse falado isso. Mas vocês estão em suas próprias casas, lembra? Então você não ouviu a resposta dele. Como os processos se comunicam com mensagens, ele teria que te mandar uma mensagem de volta.
+
+```elixir
+# gato.exs
+defmodule Gato do
+  def criar do
+    receive do
+      {:e_ai_beleza, remetente} -> send(remetente, :de_boas)
+    end
+  end
+end
+
+# Esse é você
+rato = self()
+
+# Cria um gato
+gato = spawn(Gato, :criar, [])
+
+# Manda mensagem
+send(gato, {:e_ai_beleza, rato})
+
+receive do
+  :de_boas -> IO.puts("Massa!")
+end
+
+# Resultado
+# Massa!
+```
+
+### Processo temporário
+Basicamente, um processo temporário, é quando um processo morre após executar sua função. 
+
+```elixir
+defmodule Gato do
+  def criar do
+    receive do
+      {:e_ai_beleza, remetente} -> send(remetente, :de_boas)
+    end
+  end
+end
+
+# Esse é você
+rato = self()
+
+# Cria um gato
+gato = spawn(Gato, :criar, [])
+
+IO.puts("Gato está vivo? #{Process.alive?(gato)}")
+
+# Manda mensagem
+send(gato, {:e_ai_beleza, rato})
+
+receive do
+  :de_boas -> IO.puts("Massa!")
+end
+
+IO.puts("Gato está vivo? #{Process.alive?(gato)}")
+
+# Resultado
+# Gato está vivo? true
+# Massa!
+# Gato está vivo? false
+```
+
+### Processo permanente
+Para manter o processo vivo vamos dizer que ele não responde apenas uma mensagem. Ele vai ficar checando das mensagens e respondendo. Podemos fazer isso definindo a função checar_mensagens/0 e passar o bloco receive para ela.
+
+
+```elixir
+defmodule Gato do
+  def criar do
+    checar_mensagens()
+  end
+
+  def checar_mensagens do
+    receive do
+      {:e_ai_beleza, remetente} -> send(remetente, :de_boas)
+    end
+
+    checar_mensagens()
+  end
+end
+
+# Esse é você
+rato = self()
+
+# Cria um gato
+gato = spawn(Gato, :criar, [])
+
+IO.puts("Gato está vivo? #{Process.alive?(gato)}")
+
+# Manda mensagem
+send(gato, {:e_ai_beleza, rato})
+
+receive do
+  :de_boas -> IO.puts("Massa!")
+end
+
+IO.puts("Gato está vivo? #{Process.alive?(gato)}")
+
+# Resultado
+# Gato está vivo? true
+# Massa!
+# Gato está vivo? true
+
+
+```
+
+
+
+
+
+
+
 
 
 
