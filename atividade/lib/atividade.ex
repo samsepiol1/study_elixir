@@ -1,83 +1,71 @@
-defmodule AsyncCrudSystem do
-  use GenServer
-
-  def start_link do
-    GenServer.start_link(__MODULE__, %{}, name: __MODULE__)
+defmodule Menu do
+  def start do
+    menu(%{})
   end
 
-  def create_async(params) do
-    GenServer.cast(__MODULE__, {:create, params})
+  def menu(state) do
+    IO.puts("Menu:")
+    IO.puts("1. Criar registro")
+    IO.puts("2. Ler registro")
+    IO.puts("3. Atualizar registro")
+    IO.puts("4. Excluir registro")
+    IO.puts("5. Sair")
+
+    IO.write("Escolha uma opção: ")
+    choice = String.trim(IO.gets(""))
+
+    case choice do
+      "1" -> create_record_menu(state)
+      "2" -> read_record_menu(state)
+      "3" -> update_record_menu(state)
+      "4" -> delete_record_menu(state)
+      "5" -> IO.puts("Saindo. Adeus!")
+      _ -> IO.puts("Opção inválida. Tente novamente.")
+    end
   end
 
-  def read_async(id) do
-    GenServer.call(__MODULE__, {:read, id})
+  def create_record_menu(state) do
+    IO.write("Digite os parâmetros para criar o registro (ex: nome=John, idade=30): ")
+    params_input = String.trim(IO.gets(""))
+    params = String.split(params_input, ",", trim: true)
+              |> Enum.map(&String.split(&1, "=", trim: true))
+              |> Enum.into(%{})
+
+    AsyncCrudSystem.create_async(params)
+    IO.puts("Operação de criação iniciada.")
+    menu(state)
   end
 
-  def update_async(id, params) do
-    GenServer.cast(__MODULE__, {:update, id, params})
+  def read_record_menu(state) do
+    IO.write("Digite o ID do registro para ler: ")
+    id = String.trim(IO.gets(""))
+
+    result = AsyncCrudSystem.read_async(id)
+    IO.inspect(result)
+    menu(state)
   end
 
-  def delete_async(id) do
-    GenServer.cast(__MODULE__, {:delete, id})
+  def update_record_menu(state) do
+    IO.write("Digite o ID do registro para atualizar: ")
+    id = String.trim(IO.gets(""))
+
+    IO.write("Digite os novos parâmetros para atualizar o registro (ex: nome=John, idade=30): ")
+    params_input = String.trim(IO.gets(""))
+    params = String.split(params_input, ",", trim: true)
+              |> Enum.map(&String.split(&1, "=", trim: true))
+              |> Enum.into(%{})
+
+    AsyncCrudSystem.update_async(id, params)
+    IO.puts("Operação de atualização iniciada.")
+    menu(state)
   end
 
-  # Funções do GenServer
+  def delete_record_menu(state) do
+    IO.write("Digite o ID do registro para excluir: ")
+    id = String.trim(IO.gets(""))
 
-  def init(_) do
-    {:ok, %{}}
-  end
-
-  def handle_cast({:create, params}, state) do
-    Task.start_link(fn ->
-      create_record(params)
-    end)
-    {:noreply, state}
-  end
-
-  def handle_call({:read, id}, _from, state) do
-    result =
-      Task.await(
-        Task.start_link(fn ->
-          read_record(id)
-        end)
-      )
-    {:reply, result, state}
-  end
-
-  def handle_cast({:update, id, params}, state) do
-    Task.start_link(fn ->
-      update_record(id, params)
-    end)
-    {:noreply, state}
-  end
-
-  def handle_cast({:delete, id}, state) do
-    Task.start_link(fn ->
-      delete_record(id)
-    end)
-    {:noreply, state}
-  end
-
-  # Funções privadas
-
-  defp create_record(params) do
-    # Simula a lógica de criação do registro
-    IO.puts("Criando registro: #{inspect(params)}")
-  end
-
-  defp read_record(id) do
-    # Simula a lógica de leitura do registro
-    IO.puts("Lendo registro com ID #{id}")
-    %{id: id, dados: "Exemplo de dados"}
-  end
-
-  defp update_record(id, params) do
-    # Simula a lógica de atualização do registro
-    IO.puts("Atualizando registro com ID #{id} - Novos dados: #{inspect(params)}")
-  end
-
-  defp delete_record(id) do
-    # Simula a lógica de exclusão do registro
-    IO.puts("Excluindo registro com ID #{id}")
+    AsyncCrudSystem.delete_async(id)
+    IO.puts("Operação de exclusão iniciada.")
+    menu(state)
   end
 end
