@@ -591,6 +591,101 @@ IO.puts("Gato está vivo? #{Process.alive?(gato)}")
 ```
 
 
+### Tratamento de Erros
+
+Uma das vantagens do elixir é a tolerância a falhas. O Tratamento de erros é essencial para qualquer linguagem. Raise é uma função nativa que informa se a aplicação teve algum erro.
+Por padrão o elixir vem com um runtime error. Podemos personalizar a mensagem conforme as saídas de erros nativas do elixir(No segundo exemplo de código é possível ver isso)
+
+```elixir
+defModule Elixir21 do
+    def testar_erro() do
+        IO.puts("Primeira informação)
+        raise "um erro disparou"
+        IO.puts("Segunda Informação")
+    end
+
+end
+```
+
+```elixir
+defModule Elixir21 do
+    def testar_erro() do
+        IO.puts("Primeira informação)
+        raise Argument Error, message: "Um erro disparou"
+        IO.puts("Segunda Informação")
+    end
+
+end
+
+```
+
+Também é possível criar mensagens de erros personalizadas em função separada e utilizar em outras funções. Como mostra o exemplo abaixo:
+
+```elixir
+
+defModule Elixir21 do
+    def testar_erro() do
+        IO.puts("Primeira informação)
+        raise MeuErro, message: "Um erro disparou"
+        IO.puts("Segunda Informação")
+    end
+
+end
+
+defModule MeuErro do
+    defexception message: "Meu erro Aconteceu"
+end
+```
+
+No caso do try/rescue: ele tenta executa algum bloco de código, caso a afirmação não seja verdadeira ele executa o que estiver no rescue, no caso do exemplo abaixo a função faz uma comparação se o átomo :casa é igual ao átomo :predio. Como não são, a mensagem "De fato não são iguais" é exibida na tela. 
+
+```elixir
+
+# Bloco com palavra chave tentar_salvar
+
+def tentar_salvar() do
+    try do
+        :casa = :predio
+    rescue
+        -> IO.puts("De fato não são iguais")
+    end
+end
+
+```
+
+Também é possível definir uma palavra chave denonimada "after". O after executa o código independente do resultado que vem logo após o try/rescue. 
+
+```elixir
+def tentar_salvar() do
+    try do
+        :casa = :predio
+    rescue
+       _e in MatchError -> IO.inspect("Aconteceu um erro de Match")
+    after 
+        IO.puts "Executando independente de um erro ou acerto"
+    end
+end
+```
+
+O exit permite identificar uma "Morte do processo" ou seja, quando o processo é finalizado é emitado uma mensagem.
+
+
+```elixir
+def proc do
+    pid = spawn_link fn ->
+        IO.inspect("Entrou no processo")
+        exit("Quebrou aqui")
+        IO.inspect("Saindo aqui")
+    end
+    pid
+end
+```
+
+
+
+
+
+
 
 
 
