@@ -681,6 +681,59 @@ def proc do
 end
 ```
 
+### Supervisores
+
+Tolerância a falha, de certa maneira, é poder fazer com que o sistema se recupere após uma falha que torne ele inoperável. Um supervisor é um processo que tem como responsabilidade "observar" um processo. Caso o processo "morra" o supervisor faz com que esse processo volte novamente. 
+
+#### Estratégias de supervisão
+
+- one for one: um processo acaba e logo em seguida esse mesmo processo é reiniciado.
+- one for all: um processo acaba todos os processos acabam juntos e todos os processos são reiniciados
+- rest for one: um processo acaba e o processo seguinte também acaba para que no final ambos voltem reiniciados
+
+os supervisores nada mais são que processos que podem ser criados com genserver. Esse processo é responsável por supervisionar outros processsos e impedir que um processo pare de operar devido a algum erro. No exemplo de código abaixo, criamos processo utilizando o GenServer com as funções de mostrar e retirar. No segundo módulo é mostrado a criação de um Supervisor que recebe um lista contendo os processos filhos e na função Supervisor.init define qual o tipo de estratégia esse supervisor vai adotar para o monitoramento dos processos. 
+
+```elixir
+defModule elixir25 do
+    use GenServer
+    def init(state,) do {:ok, state}
+
+    def start_link(state \\ []), do:
+        GenServer.start_link(__MODULE__, state)
+    end
+
+    def handle_call(:mostra,  _, state) do: {:reply, state, state}
+    def handle_call(:retirar, _, state) do: {:reply, value, state}
+
+    #api publica
+
+    def mostrar do: GenServer.call(__MODULE__, :mostrar)
+    def retirar do: GenServer.call(__MODULE__, :retirar)
+    
+
+
+end
+```
+
+```elixir
+defmodule Elixir25.Supervisor do
+    use Supervisor
+
+    def init(:ok) do
+        childern = [
+            Elixir25
+        ]
+    Supervisor.init(childern, strategy: :one_for:one)
+    end
+    def start_link(opts) do
+        Supervisor.start_link(__MODULE__, :ok, opts)
+    end
+end
+
+```
+
+
+
 
 
 
