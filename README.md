@@ -13,6 +13,68 @@ Mix: Mix é uma ferramenta de construção que permite criar projetos, executar 
 IEx: IEx, o shell interativo do Elixir, oferece muitos recursos como preenchimento automático, depuração, recarregamento de código e muito mais.
 Phoenix: Phoenix é conhecido por ser um dos melhores frameworks web. É baseado na arquitetura MVC, assim como Ruby on Rails.
 
+
+
+## Receber dados do usuário e saída de dados
+
+Para receber dados do usuário no Elixir usamos a função IO.gets("") e caso seja necessário fazer algum conversão existe um método interessante para isso que é usar um pipe primeiro convertendo em string e depois no tipo desejado. Como ilustra o código abaixo: 
+
+```elixir
+
+defmodule SomaDoisNumeros do
+  def main do
+    IO.puts("Digite o primeiro número:")
+    numero1 = IO.gets("") |> String.trim() |> String.to_integer()
+
+    IO.puts("Digite o segundo número:")
+    numero2 = IO.gets("") |> String.trim() |> String.to_integer()
+
+    soma = soma(numero1, numero2)
+
+    IO.puts("A soma dos dois números é: #{soma}")
+  end
+
+  def soma(a, b) do
+    a + b
+  end
+end
+
+SomaDoisNumeros.main()
+
+```
+Existe uma forma interresante de retornar os dados no elixir. Por exemplo: Se quisermos com que uma função tenha duas variáveis como saída podemos fazer com que ela retorne uma tupla e usar em uma outra função como mostra o código abaixo. Onde usamos uma tupla para fazer com que o valor seja exibido:
+
+```elixir
+
+defmodule CalculadoraDesconto do
+  def main do
+    IO.puts("Digite o preço da mercadoria:")
+    preco_mercadoria = IO.gets("")|> String.trim() |>String.to_integer()
+
+    IO.puts("Digite o percentual de desconto:")
+    percentual_desconto = IO.gets("")|> String.trim() |>String.to_integer()
+
+    {valor_desconto, preco_pagar} = calcular_desconto(preco_mercadoria, percentual_desconto)
+
+    IO.puts("O valor do desconto é: #{valor_desconto}")
+    IO.puts("O preço a pagar é: #{preco_pagar}")
+  end
+
+  def calcular_desconto(preco_mercadoria, percentual_desconto) do
+    valor_desconto = (percentual_desconto / 100) * preco_mercadoria
+    preco_pagar = preco_mercadoria - valor_desconto
+    {valor_desconto, preco_pagar}
+  end
+end
+
+CalculadoraDesconto.main()
+
+
+
+```
+
+
+
 ## Tipos Primitivos
 
 ### Strings
