@@ -1,5 +1,5 @@
-<center><h2>Meus Estudos em Java</h2></center>
-<p align="center"><a href="https://elixir.com" target="_blank"><img src="https://cdn.icon-icons.com/icons2/2699/PNG/512/java_logo_icon_168609.png" width="400" alt="Elixir Logo"></a></p>
+<center><h2>Meus Estudos em Elixir</h2></center>
+<p align="center"><a href="https://elixir.com" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Official_Elixir_logo.png/800px-Official_Elixir_logo.png" width="400" alt="Elixir Logo"></a></p>
 
 Elixir é uma linguagem de programação funcional. Com linguagens funcionais como Elixir, podemos fazer melhor uso de nossos multinúcleos de CPU e escrever códigos mais curtos e explícitos. Para entender melhor a programação funcional, devo primeiro apresentar os seguintes princípios fundamentais: imutabilidade, funções e código declarativo.
 
