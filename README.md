@@ -795,6 +795,95 @@ end
 ```
 
 
+## Benchee
+
+Não podemos simplesmente adivinhar quais funções são rápidas e quais são lentas - precisamos de medidas reais quando estamos curiosos. O Benchee nos fornece uma série de estátisticas úteis com comparações entre cenários o que permite testar testar diferentes entradas para as funções que estamos avaliando. 
+
+Uma outra características interessante é escrever seu formatador como desejar.
+
+Para adicionar Benchee ao seu projeto, adicione-o como uma dependência ao seu arquivo mix.exs:
+
+```elixir
+
+defp deps do
+    [{:benchee, "~> 1.0", only: :dev}]
+end
+
+```
+Então chamamos mix deps.get:
+
+
+Quando avaliar comparativamente, é muito importante não usar iex uma vez que isso funciona de forma diferente e é frequentemente muito mais lento do que seu código usado em produção. Então, vamos criar um arquivo que chamaremos benchmark.exs, e nesse arquivo vamos adicionar o seguinte código.
+
+
+```elixir
+
+list = Enum.to_list(1..10_000)
+map_fun = fn i -> [i, i * i] end
+
+Benchee.run(%{
+  "flat_map"    => fn -> Enum.flat_map(list, map_fun) end,
+  "map.flatten" => fn -> list |> Enum.map(map_fun) |> List.flatten() end
+})
+
+```
+
+
+Como saída: 
+
+Operating System: Linux
+CPU Information: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+Number of Available Cores: 8
+Available memory: 15.61 GB
+Elixir 1.8.1
+Erlang 21.3.2
+
+Benchmark suite executing with the following configuration:
+warmup: 2 s
+time: 5 s
+memory time: 0 ns
+parallel: 1
+inputs: none specified
+Estimated total run time: 14 s
+
+Benchmarking flat_map...
+Benchmarking map.flatten...
+
+Name                  ips        average  deviation         median         99th %
+flat_map           2.40 K      416.00 μs    ±12.88%      405.67 μs      718.61 μs
+map.flatten        1.24 K      806.20 μs    ±20.65%      752.52 μs     1186.28 μs
+
+Comparison:
+flat_map           2.40 K
+map.flatten        1.24 K - 1.94x slower +390.20 μsOperating System: Linux
+CPU Information: Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz
+Number of Available Cores: 8
+Available memory: 15.61 GB
+Elixir 1.8.1
+Erlang 21.3.2
+
+Benchmark suite executing with the following configuration:
+warmup: 2 s
+time: 5 s
+memory time: 0 ns
+parallel: 1
+inputs: none specified
+Estimated total run time: 14 s
+
+Benchmarking flat_map...
+Benchmarking map.flatten...
+
+Name                  ips        average  deviation         median         99th %
+flat_map           2.40 K      416.00 μs    ±12.88%      405.67 μs      718.61 μs
+map.flatten        1.24 K      806.20 μs    ±20.65%      752.52 μs     1186.28 μs
+
+Comparison:
+flat_map           2.40 K
+map.flatten        1.24 K - 1.94x slower +390.20 μs
+
+À primeira vista, a seção Comparison nos mostra que a versão do nosso map.flatten é 1.94x mais lenta do que flat_map. E também mostra que, em média, é cerca de 390 microssegundos mais lento, o que coloca as coisas em perspectiva. Isso é útil saber! No entanto, vamos olhar para as outras estatísticas que temos:
+
+
 
 
 
